@@ -141,11 +141,11 @@ export default function Home() {
       </div></section>
 
       <section style={{ paddingTop: 0 }}><div className="wrap faq-wrap">
-        <div>
+        <div className="faq-side">
           <span className="pill m">hỏi nhanh</span>
-          <h2 style={{ margin: ".6rem 0 .5rem" }}>Câu hỏi hay gặp ❓</h2>
+          <h2 style={{ margin: ".6rem 0 .5rem" }}>Câu hỏi hay <span style={{ whiteSpace: "nowrap" }}>gặp ❓</span></h2>
           <p className="soft">Chưa thấy câu trả lời? Nhắn Zalo <a href={STUDIO.zalo}><b>{STUDIO.phoneDisplay}</b></a>, MOOD trả lời trong giờ làm việc.</p>
-          <img src={photo("014")} alt="" style={{ borderRadius: 20, border: "2.5px solid var(--ink)", boxShadow: "4px 4px 0 var(--ink)", marginTop: "1rem", aspectRatio: "4/5", objectFit: "cover" }} />
+          <img className="faq-photo" src={photo("014")} alt="" />
         </div>
         <div className="faq">{FAQ.map(([q, a], i) => <details key={q} open={i === 0}><summary>{q}</summary><p>{a}</p></details>)}</div>
       </div></section>

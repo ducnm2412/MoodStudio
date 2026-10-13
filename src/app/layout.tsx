@@ -3,6 +3,8 @@ import { Fredoka, Quicksand } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ChatFloat from "@/components/ChatFloat";
+import ScrollReveal from "@/components/ScrollReveal";
+import PageLoader from "@/components/PageLoader";
 import "./globals.css";
 
 const fredoka = Fredoka({ variable: "--font-fredoka", subsets: ["latin", "latin-ext"], weight: ["400", "500", "600", "700"] });
@@ -17,10 +19,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="vi" className={`${fredoka.variable} ${quicksand.variable}`}>
       <body>
+        <PageLoader />
         <Header />
         <main>{children}</main>
         <Footer />
         <ChatFloat />
+        <ScrollReveal />
       </body>
     </html>
   );
