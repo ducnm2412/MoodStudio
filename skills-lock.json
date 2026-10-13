@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "image-to-ui": {
+      "source": "uizze/uizze",
+      "sourceType": "github",
+      "skillPath": "skills/image-to-ui/SKILL.md",
+      "computedHash": "7311fdd2f20ce477d757e768aed341c681e2eede34df2dd947adf00816d436a0"
+    }
+  }
+}
