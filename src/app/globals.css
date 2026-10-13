@@ -268,27 +268,36 @@ footer .copy{margin-top:2rem;font-size:.8rem;color:var(--soft)}
 .faq details:last-child{margin-bottom:0}
 @media (max-width:860px){.faq-photo{flex:none;aspect-ratio:4/5;min-height:0}}
 
-/* Hiệu ứng cuộn: section trượt lên, thẻ bên trong hiện lần lượt (dùng `translate` để không đè transform xoay của thẻ) */
-.reveal{opacity:0;translate:0 36px;transition:opacity .7s ease,translate .7s cubic-bezier(.2,.7,.2,1)}
-.reveal.in{opacity:1;translate:0 0}
-.reveal :is(.cgrid,.steps,.pgrid,.deals,.reviews,.stats,.outfit,.ig,.season,.faq,.qopts)>*{opacity:0;translate:0 24px;transition:opacity .5s ease,translate .5s cubic-bezier(.2,.7,.2,1)}
-.reveal.in :is(.cgrid,.steps,.pgrid,.deals,.reviews,.stats,.outfit,.ig,.season,.faq,.qopts)>*{opacity:1;translate:0 0}
-.reveal.in :is(.cgrid,.steps,.pgrid,.deals,.reviews,.stats,.outfit,.ig,.season,.faq,.qopts)>:nth-child(2){transition-delay:.08s}
-.reveal.in :is(.cgrid,.steps,.pgrid,.deals,.reviews,.stats,.outfit,.ig,.season,.faq,.qopts)>:nth-child(3){transition-delay:.16s}
-.reveal.in :is(.cgrid,.steps,.pgrid,.deals,.reviews,.stats,.outfit,.ig,.season,.faq,.qopts)>:nth-child(4){transition-delay:.24s}
-.reveal.in :is(.cgrid,.steps,.pgrid,.deals,.reviews,.stats,.outfit,.ig,.season,.faq,.qopts)>:nth-child(5){transition-delay:.32s}
-.reveal.in :is(.cgrid,.steps,.pgrid,.deals,.reviews,.stats,.outfit,.ig,.season,.faq,.qopts)>:nth-child(n+6){transition-delay:.4s}
-.reveal .about .pics img,.reveal.about .pics img{transition:translate .8s cubic-bezier(.2,.7,.2,1)}
-.reveal:not(.in) .pics img:nth-child(1){translate:-40px 20px}.reveal:not(.in) .pics img:nth-child(2){translate:40px 20px}.reveal:not(.in) .pics img:nth-child(3){translate:0 40px}
-.reveal .bubble{transition:opacity .4s ease,translate .4s ease}
-.reveal:not(.in) .bubble{opacity:0;translate:0 12px}
-.reveal.in .bubble:nth-child(2){transition-delay:.35s}.reveal.in .bubble:nth-child(3){transition-delay:.7s}.reveal.in .bubble:nth-child(4){transition-delay:1.05s}
-@media (prefers-reduced-motion:reduce){.reveal,.reveal *{opacity:1!important;translate:none!important;transition:none!important}}
+/* ===== Hiệu ứng (chỉ dùng transform + opacity để chạy trên mọi trình duyệt, kể cả Safari/Chrome cũ) ===== */
 
-/* Hiệu ứng tải trang */
-.loader{position:fixed;inset:0;z-index:200;display:grid;place-content:center;justify-items:center;gap:.9rem;background:var(--milk);background-image:radial-gradient(var(--pink) 1.4px,transparent 1.6px);background-size:26px 26px;transition:opacity .5s ease,visibility .5s;animation:loader-failsafe .5s 4s forwards}
+/* Cuộn trang: section trượt lên; thẻ bên trong hiện lần lượt.
+   Thẻ dùng animation fill "backwards": chạy xong trả lại transform gốc (xoay, hover) của thẻ. */
+.reveal{opacity:0;-webkit-transform:translateY(36px);transform:translateY(36px);transition:opacity .7s ease,-webkit-transform .7s cubic-bezier(.2,.7,.2,1);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;-webkit-transform:none;transform:none}
+.reveal:not(.in) .cgrid>*,.reveal:not(.in) .steps>*,.reveal:not(.in) .pgrid>*,.reveal:not(.in) .deals>*,.reveal:not(.in) .reviews>*,.reveal:not(.in) .stats>*,.reveal:not(.in) .outfit>*,.reveal:not(.in) .ig>*,.reveal:not(.in) .season>*,.reveal:not(.in) .faq>*,.reveal:not(.in) .qopts>*{opacity:0}
+.reveal.in .cgrid>*,.reveal.in .steps>*,.reveal.in .pgrid>*,.reveal.in .deals>*,.reveal.in .reviews>*,.reveal.in .stats>*,.reveal.in .outfit>*,.reveal.in .ig>*,.reveal.in .season>*,.reveal.in .faq>*,.reveal.in .qopts>*{-webkit-animation:rv-up .55s cubic-bezier(.2,.7,.2,1) backwards;animation:rv-up .55s cubic-bezier(.2,.7,.2,1) backwards}
+.reveal.in .cgrid>*:nth-child(2),.reveal.in .steps>*:nth-child(2),.reveal.in .pgrid>*:nth-child(2),.reveal.in .deals>*:nth-child(2),.reveal.in .reviews>*:nth-child(2),.reveal.in .stats>*:nth-child(2),.reveal.in .outfit>*:nth-child(2),.reveal.in .ig>*:nth-child(2),.reveal.in .season>*:nth-child(2),.reveal.in .faq>*:nth-child(2),.reveal.in .qopts>*:nth-child(2){animation-delay:0.08s}
+.reveal.in .cgrid>*:nth-child(3),.reveal.in .steps>*:nth-child(3),.reveal.in .pgrid>*:nth-child(3),.reveal.in .deals>*:nth-child(3),.reveal.in .reviews>*:nth-child(3),.reveal.in .stats>*:nth-child(3),.reveal.in .outfit>*:nth-child(3),.reveal.in .ig>*:nth-child(3),.reveal.in .season>*:nth-child(3),.reveal.in .faq>*:nth-child(3),.reveal.in .qopts>*:nth-child(3){animation-delay:0.16s}
+.reveal.in .cgrid>*:nth-child(4),.reveal.in .steps>*:nth-child(4),.reveal.in .pgrid>*:nth-child(4),.reveal.in .deals>*:nth-child(4),.reveal.in .reviews>*:nth-child(4),.reveal.in .stats>*:nth-child(4),.reveal.in .outfit>*:nth-child(4),.reveal.in .ig>*:nth-child(4),.reveal.in .season>*:nth-child(4),.reveal.in .faq>*:nth-child(4),.reveal.in .qopts>*:nth-child(4){animation-delay:0.24s}
+.reveal.in .cgrid>*:nth-child(5),.reveal.in .steps>*:nth-child(5),.reveal.in .pgrid>*:nth-child(5),.reveal.in .deals>*:nth-child(5),.reveal.in .reviews>*:nth-child(5),.reveal.in .stats>*:nth-child(5),.reveal.in .outfit>*:nth-child(5),.reveal.in .ig>*:nth-child(5),.reveal.in .season>*:nth-child(5),.reveal.in .faq>*:nth-child(5),.reveal.in .qopts>*:nth-child(5){animation-delay:0.32s}
+.reveal.in .cgrid>*:nth-child(n+6),.reveal.in .steps>*:nth-child(n+6),.reveal.in .pgrid>*:nth-child(n+6),.reveal.in .deals>*:nth-child(n+6),.reveal.in .reviews>*:nth-child(n+6),.reveal.in .stats>*:nth-child(n+6),.reveal.in .outfit>*:nth-child(n+6),.reveal.in .ig>*:nth-child(n+6),.reveal.in .season>*:nth-child(n+6),.reveal.in .faq>*:nth-child(n+6),.reveal.in .qopts>*:nth-child(n+6){animation-delay:.4s}
+.reveal:not(.in) .pics img,.reveal:not(.in) .bubble{opacity:0}
+.reveal.in .pics img:nth-child(1){animation:rv-pic1 .8s cubic-bezier(.2,.7,.2,1) backwards}
+.reveal.in .pics img:nth-child(2){animation:rv-pic2 .8s cubic-bezier(.2,.7,.2,1) .1s backwards}
+.reveal.in .pics img:nth-child(3){animation:rv-pic3 .8s cubic-bezier(.2,.7,.2,1) .2s backwards}
+.reveal.in .bubble{animation:rv-up .45s ease backwards}
+.reveal.in .bubble:nth-child(2){animation-delay:.35s}.reveal.in .bubble:nth-child(3){animation-delay:.7s}.reveal.in .bubble:nth-child(4){animation-delay:1.05s}
+@-webkit-keyframes rv-up{from{opacity:0;-webkit-transform:translateY(24px)}to{opacity:1;-webkit-transform:none}}
+@keyframes rv-up{from{opacity:0;transform:translateY(24px)}}
+@keyframes rv-pic1{from{opacity:0;transform:translate(-40px,20px) rotate(-6deg)}to{opacity:1;transform:rotate(-6deg)}}
+@keyframes rv-pic2{from{opacity:0;transform:translate(40px,20px) rotate(5deg)}to{opacity:1;transform:rotate(5deg)}}
+@keyframes rv-pic3{from{opacity:0;transform:translateY(40px) rotate(-2deg)}to{opacity:1;transform:rotate(-2deg)}}
+@keyframes rv-fade{from{opacity:0}to{opacity:1}}
+
+/* Tải trang */
+.loader{position:fixed;top:0;right:0;bottom:0;left:0;z-index:200;display:-webkit-box;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.9rem;background:var(--milk);background-image:radial-gradient(var(--pink) 1.4px,transparent 1.6px);background-size:26px 26px;transition:opacity .5s ease,visibility .5s;animation:loader-failsafe .5s 4s forwards}
 .loader.leave{opacity:0;visibility:hidden}
-.loader-heart{width:84px;height:84px;border-radius:50%;display:grid;place-items:center;background:var(--hot);color:#fff;font-size:2.6rem;line-height:1;border:3px solid var(--ink);box-shadow:5px 5px 0 var(--ink);animation:loader-bounce 1s cubic-bezier(.3,.7,.4,1.4) infinite}
+.loader-heart{width:84px;height:84px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--hot);color:#fff;font-size:2.6rem;line-height:1;border:3px solid var(--ink);box-shadow:5px 5px 0 var(--ink);animation:loader-bounce 1s cubic-bezier(.3,.7,.4,1.4) infinite}
 .loader-name{font-family:var(--fd);font-weight:700;font-size:1.6rem;color:var(--ink)}
 .loader-bar{width:160px;height:12px;border-radius:999px;border:2.5px solid var(--ink);background:#fff;overflow:hidden}
 .loader-bar span{display:block;height:100%;width:40%;border-radius:999px;background:var(--pink2);animation:loader-slide 1.1s ease-in-out infinite}
@@ -297,18 +306,26 @@ footer .copy{margin-top:2rem;font-size:.8rem;color:var(--soft)}
 @keyframes loader-bounce{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-18px) rotate(6deg)}}
 @keyframes loader-slide{0%{transform:translateX(-110%)}100%{transform:translateX(260%)}}
 @keyframes loader-twinkle{0%,100%{opacity:.2;transform:scale(.7)}50%{opacity:1;transform:scale(1.15)}}
+@keyframes loader-pulse{0%,100%{opacity:1}50%{opacity:.55}}
 @keyframes loader-failsafe{to{opacity:0;visibility:hidden}}
 
-/* Hero trang chủ hiện lần lượt ngay sau khi loader mờ đi */
-.hero-top>*{animation:hero-in .6s cubic-bezier(.2,.7,.2,1) both}
+/* Hero trang chủ hiện lần lượt sau khi loader mờ đi */
+.hero-top>*{animation:rv-up .6s cubic-bezier(.2,.7,.2,1) backwards}
 .hero-top>:nth-child(1){animation-delay:.85s}.hero-top>:nth-child(2){animation-delay:.95s}.hero-top>:nth-child(3){animation-delay:1.05s}.hero-top>:nth-child(4){animation-delay:1.15s}
-.bento>*{animation:bento-in .55s cubic-bezier(.3,.7,.4,1.3) both}
-.bento>:nth-child(1){animation-delay:1.2s}.bento>:nth-child(2){animation-delay:1.27s}.bento>:nth-child(3){animation-delay:1.34s}.bento>:nth-child(4){animation-delay:1.41s}.bento>:nth-child(5){animation-delay:1.48s}.bento>:nth-child(6){animation-delay:1.55s}.bento>:nth-child(7){animation-delay:1.62s}.bento>:nth-child(8){animation-delay:1.69s}.bento>:nth-child(9){animation-delay:1.76s}.bento>:nth-child(10){animation-delay:1.83s}.bento>:nth-child(11){animation-delay:1.9s}
-.bento>.sticker{animation:sticker-in .5s cubic-bezier(.3,.7,.4,1.6) 2.05s both}
-@keyframes hero-in{from{opacity:0;translate:0 24px}to{opacity:1;translate:0 0}}
-@keyframes bento-in{from{opacity:0;scale:.85}to{opacity:1;scale:1}}
-@keyframes sticker-in{from{opacity:0;scale:0}to{opacity:1;scale:1}}
-@media (prefers-reduced-motion:reduce){.loader,.loader *{animation:none!important}.hero-top>*,.bento>*{animation:none!important}}
+.bento>.ph,.bento>.blob{animation:bento-in .55s cubic-bezier(.3,.7,.4,1.3) backwards}
+.bento>:nth-child(1){animation-delay:1.20s}.bento>:nth-child(2){animation-delay:1.27s}.bento>:nth-child(3){animation-delay:1.34s}.bento>:nth-child(4){animation-delay:1.41s}.bento>:nth-child(5){animation-delay:1.48s}.bento>:nth-child(6){animation-delay:1.55s}.bento>:nth-child(7){animation-delay:1.62s}.bento>:nth-child(8){animation-delay:1.69s}.bento>:nth-child(9){animation-delay:1.76s}.bento>:nth-child(10){animation-delay:1.83s}.bento>:nth-child(11){animation-delay:1.90s}
+.bento>.sticker{animation:sticker-in .5s cubic-bezier(.3,.7,.4,1.6) 2.05s backwards}
+@keyframes bento-in{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:none}}
+@keyframes sticker-in{from{opacity:0;transform:scale(0) rotate(-8deg)}to{opacity:1;transform:rotate(-8deg)}}
+
+/* Máy bật "giảm chuyển động" (Windows tắt Animation effects, iPhone Reduce Motion…):
+   vẫn có hiệu ứng nhưng chỉ mờ dần, không trượt / nảy / xoay. */
+@media (prefers-reduced-motion:reduce){
+  .reveal{-webkit-transform:none;transform:none;transition:opacity .6s ease}
+  .reveal.in .cgrid>*,.reveal.in .steps>*,.reveal.in .pgrid>*,.reveal.in .deals>*,.reveal.in .reviews>*,.reveal.in .stats>*,.reveal.in .outfit>*,.reveal.in .ig>*,.reveal.in .season>*,.reveal.in .faq>*,.reveal.in .qopts>*,.reveal.in .pics img,.reveal.in .bubble,.hero-top>*,.bento>.ph,.bento>.blob,.bento>.sticker{animation-name:rv-fade!important}
+  .loader-heart{animation:loader-pulse 1.2s ease-in-out infinite}
+  .loader-bar span,.loader-sparkle{animation:loader-pulse 1.2s ease-in-out infinite}
+}
 
 /* Đặt lịch: responsive. Ô grid mặc định min-width:auto nên dải concept (15 ô) kéo tràn cả trang */
 .book-layout>*,.form-grid>*{min-width:0}

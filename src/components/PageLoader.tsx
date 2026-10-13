@@ -3,21 +3,16 @@
 import { useEffect, useState } from "react";
 
 /**
- * Màn hình chờ lần đầu mở web. Ẩn khi trang tải xong (tối thiểu ~0,8s cho đủ thấy hiệu ứng).
+ * Màn hình chờ lần đầu mở web, hiện ~0,8s rồi mờ dần.
  * CSS có sẵn mốc tự ẩn sau 4s, phòng khi JS lỗi thì loader không che trang mãi.
  */
 export default function PageLoader() {
   const [state, setState] = useState<"show" | "leave" | "gone">("show");
 
+  // Ẩn khi trang đã sẵn sàng tương tác (không chờ hết ảnh để máy / mạng chậm không phải đợi lâu).
   useEffect(() => {
-    const start = performance.now();
-    let t: ReturnType<typeof setTimeout>;
-    const finish = () => {
-      t = setTimeout(() => setState("leave"), Math.max(0, 800 - (performance.now() - start)));
-    };
-    if (document.readyState === "complete") finish();
-    else window.addEventListener("load", finish, { once: true });
-    return () => { clearTimeout(t); window.removeEventListener("load", finish); };
+    const t = setTimeout(() => setState("leave"), 800);
+    return () => clearTimeout(t);
   }, []);
 
   useEffect(() => {

@@ -12,10 +12,7 @@ export default function ChatFloat() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const toTop = () => {
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
-  };
+  const toTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
   return (
     <div className="float">
